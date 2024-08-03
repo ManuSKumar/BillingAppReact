@@ -12,29 +12,15 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Copyright } from "../../components/copyRight";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface LoginProps {
-  login: (loginData: { email: string; password: string }) => void;
-  loadData: () => void;
-  isAuthenticated: boolean;
+  signUp: (signUpData: { email: string; password: string }) => void;
 }
 
 const Login: React.FC<LoginProps> = (props) => {
-  const { login, loadData, isAuthenticated } = props;
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    loadData();
-  }, []);
-
-  React.useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home");
-    } else {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
+  const { signUp } = props;
 
   const theme = useTheme();
   const classs = useStyles(theme)();
@@ -42,11 +28,15 @@ const Login: React.FC<LoginProps> = (props) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    if (data.get("password") !== data.get("confPassword")) {
+      toast.error("Passwords do not match!");
+      return;
+    }
     const loginData = {
       email: data.get("email") as string,
       password: data.get("password") as string,
     };
-    login(loginData);
+    signUp(loginData);
   };
 
   return (
@@ -87,6 +77,18 @@ const Login: React.FC<LoginProps> = (props) => {
               variant="standard"
               className={classs.textField}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confPassword"
+              label="Confirm Password"
+              type="password"
+              id="confPassword"
+              autoComplete="password"
+              variant="standard"
+              className={classs.textField}
+            />
 
             <Button
               type="submit"
@@ -95,18 +97,8 @@ const Login: React.FC<LoginProps> = (props) => {
               className={classs.loginButton}
               sx={{ mt: 3, mb: 2, maxWidth: "150px" }}
             >
-              Sign In
+              Sign Up
             </Button>
-            <Grid container>
-              {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
-              <Grid item>
-                <Link to="signUp">{"Don't have an account? Sign Up"}</Link>
-              </Grid>
-            </Grid>
           </Box>
           <Copyright sx={{ mt: 1, mb: 1 }} />
         </Container>

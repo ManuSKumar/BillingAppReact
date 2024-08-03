@@ -1,20 +1,16 @@
 import { connect } from "react-redux";
-import { login, loadData } from "../auth/redux";
+import { signUp } from "../auth/redux";
 
 import { createStructuredSelector } from "reselect";
 import { bindActionCreators } from "redux";
 import Layout from "./layout";
-import { selectIsAuthenticated } from "../auth/selectors";
 
-const mapStateToProps = createStructuredSelector({
-  isAuthenticated: selectIsAuthenticated,
-});
+const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = (dispatch: any) =>
   bindActionCreators(
     {
-      login,
-      loadData,
+      signUp,
     },
     dispatch
   );

@@ -8,14 +8,8 @@ import Layout from "./layout";
 const mapStateToProps = createStructuredSelector({
   isAuthenticated: selectIsAuthenticated,
 });
-/* 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      onIncrement: increment,
-    },
-    dispatch
-  ); */
+
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({}, dispatch);
 
 // Connect component to Redux
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
